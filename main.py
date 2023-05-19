@@ -1,4 +1,5 @@
 # This is a sample Python script.
+import datetime
 import time
 
 from selenium import webdriver
@@ -39,15 +40,31 @@ def testOpenAiAPI():
     # )
     print(image_url)
 
+times = '2023-05-19 13:26:30'
 def Buy():
     browser = webdriver.Edge()
     browser.get("https://www.jd.com")
     time.sleep(3)
     browser.find_element(By.LINK_TEXT, "你好，请登录").click()
-    print("请扫码")
-    time.sleep(8)
+    while(True):
+        if browser.title == "京东全球版-专业的综合网上购物商城":
+            break
+        time.sleep(5)
     browser.get("https://cart.jd.com/cart_index")
-    time.sleep(5)
+    time.sleep(3)
+    while(True):
+        if browser.title == "京东商城 - 购物车" and not browser.find_element(By.CLASS_NAME, "jdcheckbox").is_selected():
+            browser.find_element(By.CLASS_NAME, "jdcheckbox").click()
+            time.sleep(1)
+            break
+        break
+    while(True):
+        # print(datetime.datetime.now())
+        target = datetime.datetime.strptime(times,'%Y-%m-%d %H:%M:%S')
+        if(datetime.datetime.now()>=target):
+            browser.find_element(By.CLASS_NAME, "common-submit-btn").click()
+    print("请尽快结算！")
+    time.sleep(1000)
 
 
 # Press the green button in the gutter to run the script.
